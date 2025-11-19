@@ -67,8 +67,8 @@ class Product {
                 ], $items)
             ];
         }
-        error_log("Loading product: " . $this->id);
-        error_log("Attributes for product " . $this->id . ": " . json_encode($attributes));
+        /* error_log("Loading product: " . $this->id);
+        error_log("Attributes for product " . $this->id . ": " . json_encode($attributes)); */
 
     }
 }

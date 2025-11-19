@@ -26,10 +26,10 @@ class Category {
         return $row ? new self($row) : null;
     }
 
-    public function loadProducts(PDO $db): void {
+    /* public function loadProducts(PDO $db): void {
         $stmt = $db->prepare("SELECT * FROM products WHERE category_id = :id");
         $stmt->execute(['id' => $this->id]);
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $this->products = array_map(fn($row) => new Product($row), $rows);
-    }
+    } */
 }

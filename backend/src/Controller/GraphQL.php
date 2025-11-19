@@ -188,7 +188,7 @@ class GraphQL {
                     'resolve' => function() {
                         $db = \App\Database\Connection::get();
                         $categories = \App\Model\Category::getAll($db);
-                        foreach ($categories as $c) $c->loadProducts($db);
+                        // foreach ($categories as $c) $c->loadProducts($db);
                         return $categories;
                     }
                 ]

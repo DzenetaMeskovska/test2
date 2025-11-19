@@ -43,7 +43,7 @@ class Order {
         return $order;
     }
 
-    public static function getById(PDO $db, int $id): ?self {
+    /* public static function getById(PDO $db, int $id): ?self {
         $stmt = $db->prepare("SELECT * FROM orders WHERE id_order = :id");
         $stmt->execute([':id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -56,6 +56,6 @@ class Order {
         $order->items = $stmtItems->fetchAll(PDO::FETCH_ASSOC);
 
         return $order;
-    }
+    } */
 }
 
