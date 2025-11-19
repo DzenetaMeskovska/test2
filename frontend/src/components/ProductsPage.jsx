@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ProductCard from './ProductCard';
+import ProductCard from '../components/ProductCard';
 import { graphql } from '../api';
 
 export default function ProductsPage({category}) {

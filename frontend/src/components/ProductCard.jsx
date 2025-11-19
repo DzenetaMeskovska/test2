@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatPrice, kebabCase } from '../utils';
 import { useNavigate } from "react-router-dom";
-import { useCart } from '../context/CartContext';
+import { useCart } from '../components/CartContext';
 
 export default function ProductCard({ product }) {
   const { addItem } = useCart();

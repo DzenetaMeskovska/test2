@@ -56,11 +56,12 @@ export function CartProvider({ children }) {
   function toggle() { setIsOpen(o => !o); }
   const totalItems = items.reduce((s,i) => s + i.qty, 0);
   const cartTotal = items.reduce((s,i) => s + (Number(i.price)||0) * i.qty, 0);
+  const totalCurrency = items[0]?.currency;
 
   return (
     <CartContext.Provider value={{
       items, addItem, increase, decrease, clear, isOpen, setIsOpen, toggle,
-      totalItems, cartTotal
+      totalItems, cartTotal, totalCurrency
     }}>
       {children}
     </CartContext.Provider>

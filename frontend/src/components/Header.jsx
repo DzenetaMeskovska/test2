@@ -1,31 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useCart } from '../context/CartContext';
+import { useCart } from '../components/CartContext';
 import { graphql } from '../api';
 
-export default function Header({ activeCategory, onCategoryClick }) {
+export default function Header({ activeCategory, onCategoryClick, menuOpen, setMenuOpen }) {
   const { totalItems, toggle } = useCart();
   const [categories, setCategories] = useState([]);
   //const [activeCategory, setActiveCategory] = useState('all');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const q = `query { categories { id name } }`;
     graphql(q)
       .then(data => setCategories(data.categories))
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false));
   }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="header-container">
     <header className="site-header">
-      <button class="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'x' : '☰'}</button>
+      <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'x' : '☰'}</button>
       <nav className={`categories ${menuOpen ? 'open' : ''}`}>
 
         {categories.map(cat => (  

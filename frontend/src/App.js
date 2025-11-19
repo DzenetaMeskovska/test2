@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import { CartProvider } from './context/CartContext';
+import { CartProvider } from './components/CartContext';
 import Header from './components/Header';
 import ProductsPage from './components/ProductsPage';
 import ProductPage from './components/PDP';
@@ -13,6 +13,8 @@ export default function App() {
     return localStorage.getItem('selectedCategory') || 'all';
   });
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   /*useEffect(() => {
     localStorage.setItem('selectedCategory', activeCategory);
   }, [activeCategory]);*/
@@ -20,6 +22,7 @@ export default function App() {
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
     localStorage.setItem("selectedCategory", category);
+    if (menuOpen) {setMenuOpen(!menuOpen)}
   };
 
   return (
@@ -28,6 +31,8 @@ export default function App() {
       <Header
         activeCategory={activeCategory}
         onCategoryClick={handleCategoryClick}
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
       />
       <div className="App">
       

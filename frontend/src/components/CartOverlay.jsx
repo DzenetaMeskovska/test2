@@ -1,10 +1,10 @@
 import React from 'react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../components/CartContext';
 import { formatPrice, kebabCase } from '../utils';
 import { graphql } from '../api';
 
 export default function CartOverlay() {
-  const { items, increase, decrease, isOpen, setIsOpen, cartTotal, totalItems, clear } = useCart();
+  const { items, increase, decrease, isOpen, setIsOpen, cartTotal, totalItems, clear, totalCurrency } = useCart();
   const close = () => setIsOpen(false);
 
   if (!isOpen) return null;
@@ -68,6 +68,7 @@ export default function CartOverlay() {
         <div className="cart-items">
           {items.map((it, idx) => (
             <div key={idx} className="cart-item">
+              {/*console.log(`idx: ${idx}`)*/}
               
               <div className="cart-item-body">
                 <div className="cart-item-title">{it.name}</div>
@@ -75,7 +76,8 @@ export default function CartOverlay() {
 
                 {/* attributes */}
                 {(it.allAttributes || []).map(attr => (
-                  <div key={attr.id} className="cart-attribute" data-testid={`cart-item-attribute-${kebabCase(attr.name)}`}>
+                  <div key={`${idx}-${attr.name}`} className="cart-attribute" data-testid={`cart-item-attribute-${kebabCase(attr.name)}`}>
+                    {/*console.log(`attr.key: ${idx}-${attr.name}`)*/}
                     <div className="cart-attr-name">{attr.name}</div>
 
                     <div className="options">
@@ -85,10 +87,11 @@ export default function CartOverlay() {
 
                         return (
                           <div
-                            key={opt.id}
+                            key={`${idx}-${attr.name}-${opt.value}`}
                             className={`option-cart ${isSwatch ? 'swatch' : ''} ${isSelected ? 'selected' : ''}`}
                             data-testid={`cart-item-attribute-${kebabCase(attr.name)}-${kebabCase(opt.value)}`}
                           >
+                            {/*console.log(`opt.key: ${idx}-${attr.name}-${opt.value}`)*/}
                             {isSwatch ? (
                               <span
                                 className="color-box"
@@ -110,7 +113,7 @@ export default function CartOverlay() {
               {/* quantity controls */}
                 <div className="qty-controls">
                   <button className="qty-button" data-testid="cart-item-amount-increase" onClick={()=>increase(idx)}>+</button>
-                  <div data-testid="cart-item-amount">{it.qty}</div>
+                  <div className="cart-item-amount" data-testid="cart-item-amount">{it.qty}</div>
                   <button className="qty-button" data-testid="cart-item-amount-decrease" onClick={()=>decrease(idx)}>-</button>
                 </div>
               <img src={it.image} alt={it.name} className="cart-item-img" />
@@ -120,8 +123,8 @@ export default function CartOverlay() {
 
         <div className="cart-footer">
           <div className="total-container">
-          <div className="total-title">Total:</div>
-          <div data-testid="cart-total" className="cart-total">{formatPrice(cartTotal)}</div>
+          <div className="total-title">Total</div>
+          <div data-testid="cart-total" className="cart-total">{totalCurrency}{formatPrice(cartTotal)}</div>
           </div>
 
             <button onClick={()=>handlePlaceOrder()} disabled={items.length===0} className={items.length===0 ? 'disabled' : 'enabled'}>PLACE ORDER</button>

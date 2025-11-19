@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { graphql } from '../api';
-import { useCart } from '../context/CartContext';
+import { useCart } from './CartContext';
 import { formatPrice, kebabCase } from '../utils';
 import parse from "html-react-parser";
 
@@ -122,7 +122,7 @@ export default function ProductPage() {
         <div className='attr-title'>Price:</div>
         <div className="price-pdp">{product.prices?.[0]?.currency?.symbol}{formatPrice(product.prices?.[0]?.amount)}</div>
 
-        <button data-testid="add-to-cart" disabled={!product.inStock || product.attributes.some(a => !selected[a.name])} onClick={addToCart}>
+        <button data-testid="add-to-cart" className="add-to-cart" disabled={!product.inStock || product.attributes.some(a => !selected[a.name])} onClick={addToCart}>
           ADD TO CART
         </button>
 
