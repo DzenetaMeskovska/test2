@@ -3,7 +3,7 @@ namespace App\Model;
 
 use PDO;
 
-class Product {
+abstract class Product {
     public string $id;
     public string $name;
     public bool $inStock;
@@ -27,14 +27,28 @@ class Product {
     public static function getAll(PDO $db): array {
         $stmt = $db->query("SELECT * FROM products");
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return array_map(fn($row) => new self($row), $rows);
+        // return array_map(fn($row) => new self($row), $rows);
+        return array_map(fn($row) => new static($row), $rows);
     }
 
     public static function getById(PDO $db, string $id): ?self {
         $stmt = $db->prepare("SELECT * FROM products WHERE id_products = :id");
         $stmt->execute(['id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ? new self($row) : null;
+        // return $row ? new self($row) : null;
+        return $row ? new static($row) : null;
+        // self always calls from this class, no overrides
+        // static can be called from inherited classes
+    }
+
+    abstract public static function getCategoryId(PDO $db): int;
+
+    public static function getByCategory(PDO $db): array {
+        $catId = static::getCategoryId($db);
+        $stmt = $db->prepare("SELECT * FROM products WHERE category_id = :id");
+        $stmt->execute(['id' => $catId]);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(fn($row) => new static($row), $rows);
     }
 
     public function loadRelations(PDO $db): void {

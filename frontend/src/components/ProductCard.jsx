@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { formatPrice, kebabCase } from '../utils';
 import { useNavigate } from "react-router-dom";
 import { useCart } from '../components/CartContext';
 
 export default function ProductCard({ product }) {
   const { addItem } = useCart();
+  const { name } = useParams();
 
   const defaultAttributes = {};
   product.attributes?.forEach(attr => {
@@ -30,7 +31,7 @@ export default function ProductCard({ product }) {
   const navigate = useNavigate();
 
   const cardClick = () => {
-    navigate(`/product/${product.id}`);
+    navigate(`/${name}/${product.id}`);
   };
 
   return (

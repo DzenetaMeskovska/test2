@@ -165,10 +165,28 @@ class GraphQL {
                     'type' => \GraphQL\Type\Definition\Type::listOf($productType),
                     'resolve' => function() {
                         $db = \App\Database\Connection::get();
-                        $products = \App\Model\Product::getAll($db);
+                        $products = \App\Model\TechProduct::getAll($db);
                         foreach ($products as $p) $p->loadRelations($db);
                         //error_log("Fetched " . count($products) . " products");
                         return $products;
+                    }
+                ],
+                'techProducts' => [
+                    'type' => \GraphQL\Type\Definition\Type::listOf($productType),
+                    'resolve' => function() {
+                        $db = \App\Database\Connection::get();
+                        $techProducts = \App\Model\TechProduct::getTechProducts($db);
+                        foreach ($techProducts as $p) $p->loadRelations($db);
+                        return $techProducts;
+                    }
+                ],
+                'clothesProducts' => [
+                    'type' => \GraphQL\Type\Definition\Type::listOf($productType),
+                    'resolve' => function() {
+                        $db = \App\Database\Connection::get();
+                        $clothesProducts = \App\Model\ClothesProduct::getClothesProducts($db);
+                        foreach ($clothesProducts as $p) $p->loadRelations($db);
+                        return $clothesProducts;
                     }
                 ],
                 'product' => [
@@ -178,7 +196,7 @@ class GraphQL {
                     ],
                     'resolve' => function ($root, $args) {
                         $db = \App\Database\Connection::get();
-                        $product = \App\Model\Product::getById($db, $args['id']);
+                        $product = \App\Model\TechProduct::getById($db, $args['id']);
                         $product->loadRelations($db);
                         return $product;
                     }

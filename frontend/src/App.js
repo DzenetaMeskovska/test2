@@ -38,8 +38,8 @@ export default function App() {
       
       <Routes>
         <Route path="/" element={<ProductsPage category={activeCategory}  />} />
-        <Route path="/category/:name" element={<ProductsPage category={activeCategory}  />} />
-        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/:name" element={<ProductsPage category={activeCategory}  />} />
+        <Route path="/:name/:id" element={<ProductPage />} />
       </Routes>
       <CartOverlay />
       </div>

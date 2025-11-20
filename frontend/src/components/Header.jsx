@@ -23,7 +23,7 @@ export default function Header({ activeCategory, onCategoryClick, menuOpen, setM
         {categories.map(cat => (  
           <Link
             key={cat.name}
-            to={`/category/${cat.name.toLowerCase()}`}
+            to={`/${cat.name.toLowerCase()}`}
             data-testid={cat.name === activeCategory ? 'active-category-link' : 'category-link'}
             className={cat.name.toLowerCase() === activeCategory.toLowerCase() ? 'active' : ''}
             onClick={() => onCategoryClick(cat.name)}
