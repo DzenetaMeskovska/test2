@@ -92,15 +92,13 @@ export default function CartOverlay() {
                             data-testid={`cart-item-attribute-${kebabCase(attr.name)}-${kebabCase(opt.value)}`}
                           >
                             {/*console.log(`opt.key: ${idx}-${attr.name}-${opt.value}`)*/}
-                            {isSwatch ? (
-                              <span
-                                className="color-box"
-                                style={{ backgroundColor: opt.value }}
-                              ></span>
-                            ) : (
-                              <span 
-                              className="attr-option-value" 
-                              data-testid={`cart-item-attribute-${kebabCase(attr.name)}-${kebabCase(opt.value)}${isSelected ? '-selected' : ''}`}>{opt.value}</span>
+                            {isSwatch 
+                              ? <span className="color-box" style={{ backgroundColor: opt.value }}></span>
+                              : ( <span 
+                                    className="attr-option-value" 
+                                    data-testid={`cart-item-attribute-${kebabCase(attr.name)}-${kebabCase(opt.value)}${isSelected ? '-selected' : ''}`}>
+                                    {opt.value}
+                                </span>
                             )}
                           </div>
                         );

@@ -111,8 +111,9 @@ export default function ProductPage() {
                     className={`option ${attr.type==='swatch' ? 'swatch' : ''} ${selectedFlag?'selected':''}`}
                     onClick={() => setSelected(prev => ({...prev, [attr.name]: value}))}
                     /*data-testid={dataTest + (selectedFlag ? '-selected' : '')}*/>
-                    {attr.type === 'swatch' ? null : it.displayValue}
-                    {attr.type === 'swatch' && <span style={{background: value}} className="color-box" />}
+                    {attr.type === 'swatch' 
+                    ? <span style={{background: value}} className="color-box" />
+                    : it.displayValue}
                   </button>
                 );
               })}

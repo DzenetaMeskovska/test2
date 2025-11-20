@@ -38,9 +38,9 @@ export default function ProductCard({ product }) {
     <div className={`product-card ${!product.inStock ? 'oos' : ''}`} data-testid={`product-${kebabCase(product.name)}`} onClick={cardClick}>
       <div className="image-wrap">
         <img src={product.gallery?.[0]?.url} alt={product.name} />
-        {!product.inStock && <div className="oos-overlay">OUT OF STOCK</div>}
-        {product.inStock && (
-          <button className="quick-shop" onClick={quickAdd}><img src="/quick-add.png" alt="Quick add" /></button>)}
+        {!product.inStock 
+        ? <div className="oos-overlay">OUT OF STOCK</div>
+        : <button className="quick-shop" onClick={quickAdd}><img src="/quick-add.png" alt="Quick add" /></button>}
       </div>
       <div className="card-title">
         <div className="title">{product.name}</div>
