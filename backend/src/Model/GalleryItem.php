@@ -4,15 +4,19 @@ namespace App\Model;
 use PDO;
 
 class GalleryItem {
-    public int $id;
-    public string $url;
-    public string $productId;
+    private int $id;
+    private string $url;
+    private string $productId;
 
     public function __construct(array $data) {
         $this->id = $data['id_gallery'];
         $this->url = $data['image_url'];
         $this->productId = $data['product_id'];
     }
+
+    public function getId():int { return $this->id;}
+    public function getUrl():string { return $this->url;}
+    public function getProductId():string { return $this->productId;}
 
     public static function getByProductId(PDO $db, string $productId): array {
         $stmt = $db->prepare("SELECT * FROM gallery WHERE product_id = :id");

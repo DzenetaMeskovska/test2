@@ -4,14 +4,17 @@ namespace App\Model;
 use PDO;
 
 class Category {
-    public int $id;
-    public string $name;
-    public array $products = [];
+    private int $id;
+    private string $name;
+    //public array $products = [];
 
     public function __construct(array $data) {
         $this->id = $data['id_categories'];
         $this->name = $data['name'];
     }
+
+    public function getId():int { return $this->id;}
+    public function getName():string { return $this->name;}
 
     public static function getAll(PDO $db): array {
         $stmt = $db->query("SELECT * FROM categories");

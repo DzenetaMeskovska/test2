@@ -4,16 +4,16 @@ namespace App\Model;
 use PDO;
 
 abstract class Product {
-    public string $id;
-    public string $name;
-    public bool $inStock;
-    public string $description;
-    public int $categoryId;
-    public string $brand;
-    public array $gallery = [];
-    public array $attributes = [];
-    public array $prices = [];
-    public ?Category $category = null;
+    protected string $id;
+    protected string $name;
+    protected bool $inStock;
+    protected string $description;
+    protected int $categoryId;
+    protected string $brand;
+    protected array $gallery = [];
+    protected array $attributes = [];
+    protected array $prices = [];
+    protected ?Category $category = null;
 
     public function __construct(array $data) {
         $this->id = $data['id_products'];
@@ -23,6 +23,17 @@ abstract class Product {
         $this->categoryId = $data['category_id'];
         $this->brand = $data['brand'];
     }
+
+    public function getId():string { return $this->id;}
+    public function getName():string { return $this->name;}
+    public function isInStock():bool { return $this->inStock;}
+    public function getDescription():string { return $this->description;}
+    public function getCategoryId():int { return $this->categoryId;}
+    public function getBrand():string { return $this->brand;}
+    public function getGallery():array { return $this->gallery;}
+    public function getAttributes():array { return $this->attributes;}
+    public function getPrices():array { return $this->prices;}
+    public function getCategory():Category { return $this->category;}
 
     public static function getAll(PDO $db): array {
         $stmt = $db->query("SELECT * FROM products");
@@ -41,23 +52,26 @@ abstract class Product {
         // static can be called from inherited classes
     }
 
-    abstract public static function getCategoryId(PDO $db): int;
+    abstract public static function getCategoryIdByName(PDO $db): int;
 
     public static function getByCategory(PDO $db): array {
-        $catId = static::getCategoryId($db);
+        $catId = static::getCategoryIdByName($db);
         $stmt = $db->prepare("SELECT * FROM products WHERE category_id = :id");
         $stmt->execute(['id' => $catId]);
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(fn($row) => new static($row), $rows);
     }
 
+    abstract public function getProductAttributes(PDO $db): array;
+
     public function loadRelations(PDO $db): void {
         $this->gallery = GalleryItem::getByProductId($db, $this->id);
         $this->prices = Price::getByProductId($db, $this->id);
         $this->category = Category::getById($db, $this->categoryId);
-        $attributes = Attribute::getByProductId($db, $this->id);
+        //$attributes = Attribute::getByProductId($db, $this->id);
+        $this->attributes = $this->getProductAttributes($db);
 
-        $this->attributes = [];
+        /*$this->attributes = [];
 
         foreach ($attributes as $a) {
             $stmtItems = $db->prepare("
@@ -76,11 +90,11 @@ abstract class Product {
                 'name' => $a->name,
                 'type' => $a->type,
                 'items' => array_map(fn($it) => (object)[
-                    'displayValue' => $it['displayValue'],
-                    'value' => $it['value']
-                ], $items)
+                    'displayValue' => $it->displayValue,
+                    'value' => $it->value
+                ], $a->items)
             ];
-        }
+        }*/
         /* error_log("Loading product: " . $this->id);
         error_log("Attributes for product " . $this->id . ": " . json_encode($attributes)); */
 

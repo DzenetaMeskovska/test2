@@ -6,7 +6,7 @@ export async function graphql(query, variables = {}) {
   });
 
   const text = await res.text();
-  // console.log('Raw GraphQL response:', text);
+  console.log('Raw GraphQL response:', text);
 
   let json;
   try {

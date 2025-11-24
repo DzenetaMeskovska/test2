@@ -4,16 +4,21 @@ namespace App\Model;
 use PDO;
 
 class Order {
-    public int $id;
-    public float $total;
-    public int $currency_id;
-    public array $items = [];
+    private int $id;
+    private float $total;
+    private int $currency_id;
+    private array $items = [];
 
     public function __construct(array $data) {
         $this->id = $data['id_order'];
         $this->total = $data['total'];
         $this->currency_id = $data['currency_id'];
     }
+
+    /*public function getId():int { return $this->id;}
+    public function getTotal():float { return $this->total;}
+    public function getCurrency_id():int { return $this->currency_id;}
+    public function getItems():array { return $this->items;}*/
 
     public static function create(PDO $db, array $items, float $total, int $currency_id): self {
         $stmt = $db->prepare("INSERT INTO orders (total, currency_id) VALUES (:total, :currency_id)");

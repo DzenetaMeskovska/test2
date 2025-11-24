@@ -4,11 +4,11 @@ namespace App\Model;
 use PDO;
 
 class Price {
-    public int $id;
-    public float $amount;
-    public int $currencyId;
-    public string $productId;
-    public ?Currency $currency = null;
+    private int $id;
+    private float $amount;
+    private int $currencyId;
+    private string $productId;
+    private ?Currency $currency = null;
 
     public function __construct(array $data) {
         $this->id = $data['id_prices'];
@@ -16,6 +16,12 @@ class Price {
         $this->currencyId = $data['currency_id'];
         $this->productId = $data['product_id'];
     }
+
+    public function getId():int { return $this->id;}
+    public function getAmount():float { return $this->amount;}
+    public function getCurrencyId():int { return $this->currencyId;}
+    public function getProductId():string { return $this->productId;}
+    public function getCurrency():Currency { return $this->currency;}
 
     public static function getByProductId(PDO $db, string $productId): array {
         $stmt = $db->prepare("SELECT * FROM prices WHERE product_id = :pid");

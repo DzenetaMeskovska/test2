@@ -20,48 +20,84 @@ class GraphQL {
             $currencyType = new ObjectType([
                 'name' => 'Currency',
                 'fields' => [
-                    'label' => Type::string(),
-                    'symbol' => Type::string(),
+                    'label' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($currency) => $currency->getLabel(),
+                    ],
+                    'symbol' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($currency) => $currency->getSymbol(),
+                    ],
                 ],
             ]);
 
             $priceType = new ObjectType([
                 'name' => 'Price',
                 'fields' => [
-                    'amount' => Type::float(),
-                    'currency' => $currencyType,
+                    'amount' => [
+                        'type' => Type::float(),
+                        'resolve' => fn($price) => $price->getAmount(),
+                    ],
+                    'currency' => [
+                        'type' => $currencyType,
+                        'resolve' => fn($price) => $price->getCurrency(),
+                    ],
                 ],
             ]);
 
             $galleryItemType = new ObjectType([
                 'name' => 'GalleryItem',
                 'fields' => [
-                    'url' => Type::string()
+                    'url' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($gallery) => $gallery->getUrl(),
+                    ],
                 ],
             ]);
 
             $attributeItemType = new ObjectType([
                 'name' => 'AttributeItem',
                 'fields' => [
-                    'displayValue' => Type::string(),
-                    'value' => Type::string(),
+                    'displayValue' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($attritem) => $attritem->displayValue,
+                    ],
+                    'value' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($attritem) => $attritem->value,
+                    ],
                 ],
             ]);
 
             $attributeType = new ObjectType([
                 'name' => 'Attribute',
                 'fields' => [
-                    'name' => Type::string(),
-                    'type' => Type::string(),
-                    'items' => Type::listOf($attributeItemType),
+                    'name' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($attribute) => $attribute->name,
+                    ],
+                    'type' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($attribute) => $attribute->type,
+                    ],
+                    'items' => [
+                        'type' => Type::listOf($attributeItemType),
+                        'resolve' => fn($attribute) => $attribute->items,
+                    ],
                 ],
             ]);
 
             $categoryType = new ObjectType([
                 'name' => 'Category',
                 'fields' => [
-                    'id' => Type::id(),
-                    'name' => Type::string(),
+                    'id' => [
+                        'type' => Type::id(),
+                        'resolve' => fn($category) => $category->getId(),
+                    ],
+                    'name' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($category) => $category->getName(),
+                    ],
                 ],
             ]);
 
@@ -69,15 +105,42 @@ class GraphQL {
                 'name' => 'Product',
                 'fields' => function () use ($categoryType, $galleryItemType, $attributeType, $priceType){
                 return [
-                    'id' => Type::id(),
-                    'name' => Type::string(),
-                    'inStock' => Type::boolean(),
-                    'gallery' => Type::listOf($galleryItemType),
-                    'description' => Type::string(),
-                    'brand' => Type::string(),
-                    'attributes' => Type::listOf($attributeType),
-                    'prices' => Type::listOf($priceType),
-                    'category' => $categoryType,
+                    'id' => [
+                        'type' => Type::id(),
+                        'resolve' => fn($product) => $product->getId(),
+                    ],
+                    'name' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($product) => $product->getName(),
+                    ],
+                    'inStock' => [
+                        'type' => Type::boolean(),
+                        'resolve' => fn($product) => $product->isInStock(),
+                    ],
+                    'gallery' => [ 
+                        'type' => Type::listOf($galleryItemType),
+                        'resolve' => fn($product) => $product->getGallery(),
+                    ],
+                    'description' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($product) => $product->getDescription(),
+                    ],
+                    'brand' => [
+                        'type' => Type::string(),
+                        'resolve' => fn($product) => $product->getBrand(),
+                    ],
+                    'attributes' => [
+                        'type' => Type::listOf($attributeType),
+                        'resolve' => fn($product) => $product->getAttributes(),
+                    ],
+                    'prices' => [
+                        'type' => Type::listOf($priceType),
+                        'resolve' => fn($product) => $product->getPrices(),
+                    ],
+                    'category' => [
+                        'type' => $categoryType,
+                        'resolve' => fn($product) => $product->getCategory(),
+                    ],
                 ];
                 }
             ]);
