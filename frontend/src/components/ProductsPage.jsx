@@ -3,15 +3,7 @@ import ProductCard from '../components/ProductCard';
 import { graphql } from '../api';
 
 export default function ProductsPage({category}) {
-  //const { name } = useParams();
-  //const category = name || 'all';
   const [products, setProducts] = useState([]);
-
-  /*useEffect(() => {
-    const q = `query { 
-    products { id name inStock gallery { url } description attributes { name type items { displayValue value }} prices { amount currency { label symbol }} category { name }} }`;
-    graphql(q).then(data => setProducts(data.products)).catch(console.error);
-  }, []);*/
 
   useEffect(() => {
     const field = category.toLowerCase() === 'all'
@@ -43,11 +35,6 @@ export default function ProductsPage({category}) {
         .then(data => setProducts(data[field]))
         .catch(console.error);
   }, [category]);
-  
-
-  //const shown = category && category.toLowerCase() !== 'all' 
-  // ? products.filter(p => p.category?.name?.toLowerCase() === category.toLowerCase()) 
-  // : products;
 
   return (
     <main className="product-grid">

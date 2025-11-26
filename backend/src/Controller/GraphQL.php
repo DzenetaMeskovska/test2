@@ -9,12 +9,19 @@ use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Schema;
 use GraphQL\Type\SchemaConfig;
 use GraphQL\Error\DebugFlag;
+use App\Database\Connection;
+use App\Model\Category;
+use App\Model\Order;
+use App\Model\TechProduct;
+use App\Model\ClothesProduct;
 use RuntimeException;
 use Throwable;
 
 class GraphQL {
     static public function handle() {
         try {
+            $resolvers = require '../src/Resolvers.php';
+
             $productType = null;
 
             $currencyType = new ObjectType([
@@ -155,7 +162,7 @@ class GraphQL {
                 ],
             ]);
 
-            $orderType = new ObjectType([ //defines data u can fetch
+            $orderType = new ObjectType([
                 'name' => 'Order',
                 'fields' => [
                     'id' => ['type' => Type::int()],
@@ -165,7 +172,7 @@ class GraphQL {
                 ],
             ]);
 
-            $orderItemInputType = new InputObjectType([ //defines data u can send in mutations
+            $orderItemInputType = new InputObjectType([
             'name' => 'OrderItemInput',
             'fields' => [
                 'productId' => ['type' => Type::string()],
@@ -174,32 +181,10 @@ class GraphQL {
                 'attributes' => ['type' => Type::string()],
             ],
             ]);
-                        
-
-            /*$queryType = new ObjectType([
-                'name' => 'Query',
-                'fields' => [
-                    'echo' => [
-                        'type' => Type::string(),
-                        'args' => [
-                            'message' => ['type' => Type::string()],
-                        ],
-                        'resolve' => static fn ($rootValue, array $args): string => $rootValue['prefix'] . $args['message'],
-                    ],
-                ],
-            ]);*/
         
             $mutationType = new ObjectType([
                 'name' => 'Mutation',
                 'fields' => [
-                    /*'sum' => [
-                        'type' => Type::int(),
-                        'args' => [
-                            'x' => ['type' => Type::int()],
-                            'y' => ['type' => Type::int()],
-                        ],
-                        'resolve' => static fn ($calc, array $args): int => $args['x'] + $args['y'],
-                    ],*/
                     'placeOrder' => [
                         'type' => $orderType,
                         'args' => [
@@ -207,71 +192,36 @@ class GraphQL {
                             'total' => ['type' => Type::float()],
                             'currency_id' => ['type' => Type::int()],
                         ],
-                        'resolve' => function ($root, $args) {
-                            try {
-                            $db = \App\Database\Connection::get();
-                            $order = \App\Model\Order::create($db, $args['items'], $args['total'], $args['currency_id']);
-                            return $order;
-                            } catch (\Exception $e) {
-                                error_log('Order creation failed: ' . $e->getMessage());
-                                throw new \Exception('Failed to create order.');
-                            }
-                        }
+                        'resolve' => $resolvers['placeOrder'],
                     ],
                 ],
             ]);
 
-            $queryType = new \GraphQL\Type\Definition\ObjectType([
+            $queryType = new ObjectType([
             'name' => 'Query',
             'fields' => [
                 'products' => [
-                    'type' => \GraphQL\Type\Definition\Type::listOf($productType),
-                    'resolve' => function() {
-                        $db = \App\Database\Connection::get();
-                        $products = \App\Model\TechProduct::getAll($db);
-                        foreach ($products as $p) $p->loadRelations($db);
-                        //error_log("Fetched " . count($products) . " products");
-                        return $products;
-                    }
+                    'type' => Type::listOf($productType),
+                    'resolve' => $resolvers['products'],
                 ],
                 'techProducts' => [
-                    'type' => \GraphQL\Type\Definition\Type::listOf($productType),
-                    'resolve' => function() {
-                        $db = \App\Database\Connection::get();
-                        $techProducts = \App\Model\TechProduct::getTechProducts($db);
-                        foreach ($techProducts as $p) $p->loadRelations($db);
-                        return $techProducts;
-                    }
+                    'type' => Type::listOf($productType),
+                    'resolve' => $resolvers['techProducts'],
                 ],
                 'clothesProducts' => [
-                    'type' => \GraphQL\Type\Definition\Type::listOf($productType),
-                    'resolve' => function() {
-                        $db = \App\Database\Connection::get();
-                        $clothesProducts = \App\Model\ClothesProduct::getClothesProducts($db);
-                        foreach ($clothesProducts as $p) $p->loadRelations($db);
-                        return $clothesProducts;
-                    }
+                    'type' => Type::listOf($productType),
+                    'resolve' => $resolvers['clothesProducts'],
                 ],
                 'product' => [
                     'type' => $productType,
                     'args' => [
                         'id' => Type::nonNull(Type::id())
                     ],
-                    'resolve' => function ($root, $args) {
-                        $db = \App\Database\Connection::get();
-                        $product = \App\Model\TechProduct::getById($db, $args['id']);
-                        $product->loadRelations($db);
-                        return $product;
-                    }
+                    'resolve' => $resolvers['product'],
                 ],
                 'categories' => [
-                    'type' => \GraphQL\Type\Definition\Type::listOf($categoryType),
-                    'resolve' => function() {
-                        $db = \App\Database\Connection::get();
-                        $categories = \App\Model\Category::getAll($db);
-                        // foreach ($categories as $c) $c->loadProducts($db);
-                        return $categories;
-                    }
+                    'type' => Type::listOf($categoryType),
+                    'resolve' => $resolvers['categories'],
                 ]
             ]
             ]);

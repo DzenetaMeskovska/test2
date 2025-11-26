@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useCart } from '../components/CartContext';
+import { useCart } from '../CartContext';
 import { graphql } from '../api';
 
 export default function Header({ activeCategory, onCategoryClick, menuOpen, setMenuOpen }) {
   const { totalItems, toggle } = useCart();
   const [categories, setCategories] = useState([]);
-  //const [activeCategory, setActiveCategory] = useState('all');
 
   useEffect(() => {
     const q = `query { categories { id name } }`;
@@ -32,7 +31,6 @@ export default function Header({ activeCategory, onCategoryClick, menuOpen, setM
             
         ))}
       </nav>
-      
 
       <div className="logo"> <img src="/logo.png" alt="Site Logo" /> </div>
 

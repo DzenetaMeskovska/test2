@@ -47,20 +47,5 @@ class Order {
         $order->items = $items;
         return $order;
     }
-
-    /* public static function getById(PDO $db, int $id): ?self {
-        $stmt = $db->prepare("SELECT * FROM orders WHERE id_order = :id");
-        $stmt->execute([':id' => $id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$row) return null;
-
-        $order = new self($row);
-
-        $stmtItems = $db->prepare("SELECT * FROM order_items WHERE order_id = :id");
-        $stmtItems->execute([':id' => $id]);
-        $order->items = $stmtItems->fetchAll(PDO::FETCH_ASSOC);
-
-        return $order;
-    } */
 }
 

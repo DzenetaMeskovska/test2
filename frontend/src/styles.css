@@ -9,16 +9,10 @@
 }
 
 .site-header {
-  /* position: sticky; */
-  /* top: 0; */
-  /* background-color: white; */
   display:flex;
   justify-content:space-between;
   align-items:center; 
-  /* padding: 28px 0px 10px 0px; */
   padding: 20px 0;
-  /* column-gap: 23rem; */
-  /* gap: 15%; */
   z-index: 1002;
   height: 40px;
   max-width: 1240px;
@@ -57,7 +51,6 @@
 }
 
 .logo {
-  /* margin-right: calc(80% - 45vw); */
   margin: 0 auto;
 }
 
@@ -69,7 +62,6 @@
 .cart-btn img{
   height: 20px;
   width: auto;
-  /*margin-right: -55px;*/
 }
 
 .cart-btn { 
@@ -78,7 +70,6 @@
   border:none;
   cursor: pointer;
   margin-right: 40px;
-  /* margin-right: -55px; */
 }
 
 .cart-bubble { 
@@ -115,10 +106,6 @@
   grid-template-columns:repeat(3, 350px); 
   justify-content: center;
   gap:50px; 
-  /* margin: 0 auto; */
-  /* padding: 0 20px; */
-  /* max-width: 1200px; */
-  /* box-sizing: border-box; */
 }
 
 .product-card { 
@@ -127,13 +114,11 @@
   margin-bottom: 65px; 
   padding: 20px; 
   width: 100%;
-  /* max-width: 350px; */
   box-sizing: border-box;
 }
 
 .product-card .image-wrap { 
   position:relative; 
-  /*overflow:hidden;*/ 
   width:100%; 
   height:auto; 
   aspect-ratio: 1.1 / 1;
@@ -141,19 +126,12 @@
   align-items:center; 
   justify-content:center; 
   z-index: 2;
-  /* box-sizing: border-box; */
 }
 
 .product-card .image-wrap img { 
   max-width:100%; 
   max-height:100%; 
   object-fit:cover;
-  /* box-sizing: border-box; */
-}
-
-.product-card .oos .image-wrap img { 
-  filter:grayscale(100%) brightness(120%); 
-  opacity:0.6; 
 }
 
 .oos-overlay { 
@@ -189,6 +167,7 @@
 .quick-shop:hover { box-shadow: 0 4px 20px rgba(29, 31, 34, 0.3); }
 
 .product-card:hover .quick-shop { display:block;}
+
 .product-card:hover { box-shadow: 0 4px 20px rgba(29, 31, 34, 0.3); }
 
 .card-title { margin-top: 30px; z-index: 1;} 
@@ -198,7 +177,6 @@
   text-align: left; 
   font-weight: 300; 
   line-height: 160%;
-  /* margin-bottom: 10px;  */
   font-family: 'Raleway', sans-serif;
 }
 
@@ -230,7 +208,6 @@
   background:#fff; 
   z-index:1000; 
   padding:18px 18px 30px 18px; 
-  /* box-shadow:0 8px 30px rgba(0,0,0,0.2);  */
   overflow: scroll;
 }
 
@@ -403,7 +380,6 @@ button.disabled {
   padding: 15px;
   width: 100%;
   opacity:0.5; 
-  pointer-events:none; 
   font-family: 'Raleway', sans-serif;
 }
 

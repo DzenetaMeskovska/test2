@@ -1,14 +1,4 @@
 <?php
-/*$servername = "localhost";
-$username = "root";
-$password = "option123";
-$database = "scandiweb_store";
-
-$conn = new mysqli($servername, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}*/
 namespace App\Database;
 
 use PDO;

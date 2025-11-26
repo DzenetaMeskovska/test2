@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { graphql } from '../api';
-import { useCart } from './CartContext';
+import { useCart } from '../CartContext';
 import { formatPrice, kebabCase } from '../utils';
 import parse from "html-react-parser";
 
@@ -104,13 +104,11 @@ export default function ProductPage() {
             <div className="options">
               {attr.items.map(it => {
                 const value = it.value;
-                //const dataTest = `product-attribute-${kebabCase(attr.name)}-${kebabCase(value)}`;
-                const selectedFlag = selected[attr.name] === value;
+                const selectedValue = selected[attr.name] === value;
                 return (
                   <button key={it.displayValue}
-                    className={`option ${attr.type==='swatch' ? 'swatch' : ''} ${selectedFlag?'selected':''}`}
-                    onClick={() => setSelected(prev => ({...prev, [attr.name]: value}))}
-                    /*data-testid={dataTest + (selectedFlag ? '-selected' : '')}*/>
+                    className={`option ${attr.type==='swatch' ? 'swatch' : ''} ${selectedValue ? 'selected' : ''}`}
+                    onClick={() => setSelected(prev => ({...prev, [attr.name]: value}))}>
                     {attr.type === 'swatch' 
                     ? <span style={{background: value}} className="color-box" />
                     : it.displayValue}

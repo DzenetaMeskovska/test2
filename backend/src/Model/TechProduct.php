@@ -8,7 +8,7 @@ class TechProduct extends Product {
     public static function getCategoryIdByName(PDO $db): int {
         $stmt = $db->query("SELECT id_categories FROM categories WHERE name = 'tech'");
         $catid = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $catid['id_categories'] ?? 0;
+        return $catid['id_categories'] ?? 1;
     }
 
     public static function getTechProducts(PDO $db): array {

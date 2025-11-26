@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import { CartProvider } from './components/CartContext';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { CartProvider } from './CartContext';
 import Header from './components/Header';
 import ProductsPage from './components/ProductsPage';
 import ProductPage from './components/PDP';
@@ -14,10 +14,6 @@ export default function App() {
   });
 
   const [menuOpen, setMenuOpen] = useState(false);
-
-  /*useEffect(() => {
-    localStorage.setItem('selectedCategory', activeCategory);
-  }, [activeCategory]);*/
 
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
@@ -47,6 +43,4 @@ export default function App() {
     </CartProvider>
   );
 }
-
-//export default App;
 

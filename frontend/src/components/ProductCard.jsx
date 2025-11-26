@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { formatPrice, kebabCase } from '../utils';
-import { useNavigate } from "react-router-dom";
-import { useCart } from '../components/CartContext';
+import { useCart } from '../CartContext';
 
 export default function ProductCard({ product }) {
   const { addItem } = useCart();

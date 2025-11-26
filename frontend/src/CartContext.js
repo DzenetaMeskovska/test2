@@ -22,8 +22,8 @@ export function CartProvider({ children }) {
     const idx = items.findIndex(i =>
       i.productId === newItem.productId &&
       JSON.stringify(i.attributes) === JSON.stringify(newItem.attributes)
-    ); //compares new item with items in cart
-    if (idx >= 0) { //if item exists, just add qty
+    ); 
+    if (idx >= 0) { 
       const copy = [...items];
       copy[idx].qty = (copy[idx].qty || 1) + (newItem.qty || 1); 
       setItems(copy);
@@ -35,7 +35,7 @@ export function CartProvider({ children }) {
 
   function increase(index) {
     setItems(prev => prev.map((it,i) => i===index ? { ...it, qty: (it.qty || 1) + 1 } : it));
-  } //prev is current array of items in the cart
+  } //prev - current items
 
   function decrease(index) {
     setItems(prev => {
@@ -43,7 +43,7 @@ export function CartProvider({ children }) {
       //console.log('Before decrease:', copy[index]);
       const currentQty = copy[index].qty || 1;
       if (currentQty <= 1) {
-        copy.splice(index,1); // removes 1 element at position index from copy
+        copy.splice(index,1); // removes 1 element at position 'index' from copy
       } else {
         copy[index].qty = currentQty - 1;
       }

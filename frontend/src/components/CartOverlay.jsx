@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCart } from '../components/CartContext';
+import { useCart } from '../CartContext';
 import { formatPrice, kebabCase } from '../utils';
 import { graphql } from '../api';
 
@@ -26,7 +26,7 @@ export default function CartOverlay() {
       const price = Number(formatPrice(i.price) || 0);
       const quantity = parseInt(i.qty || 0, 10);
       const attributes = JSON.stringify(i.attributes || {}).replace(/"/g, '\\"');
-      
+    
       return `{ 
         productId: "${productId}", 
         price: ${price}, 
@@ -53,7 +53,7 @@ export default function CartOverlay() {
         }
       }
     `;
-    //console.log("Final GQL mutation:\n", mutation);
+    //console.log("GraphQL mutation:\n", mutation);
 
     await graphql(mutation);
     clear();

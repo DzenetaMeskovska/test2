@@ -6,7 +6,6 @@ use PDO;
 class Category {
     private int $id;
     private string $name;
-    //public array $products = [];
 
     public function __construct(array $data) {
         $this->id = $data['id_categories'];
@@ -28,11 +27,4 @@ class Category {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ? new self($row) : null;
     }
-
-    /* public function loadProducts(PDO $db): void {
-        $stmt = $db->prepare("SELECT * FROM products WHERE category_id = :id");
-        $stmt->execute(['id' => $this->id]);
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $this->products = array_map(fn($row) => new Product($row), $rows);
-    } */
 }

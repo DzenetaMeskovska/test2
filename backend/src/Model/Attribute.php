@@ -36,7 +36,6 @@ class Attribute {
     }
 
     public function loadItems(PDO $db, string $productId): void {
-        //$stmt = $db->prepare("SELECT * FROM attribute_items WHERE attribute_id = :id");
         $stmt = $db->prepare("
                 SELECT ai.*
                 FROM product_items pi
