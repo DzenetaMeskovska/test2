@@ -20,7 +20,7 @@ use Throwable;
 class GraphQL {
     static public function handle() {
         try {
-            $resolvers = require '../src/Resolvers.php';
+            $resolvers = require '../src/Resolvers/Resolvers.php';
 
             $productType = null;
 

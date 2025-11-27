@@ -29,7 +29,16 @@ class Price {
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $prices = array_map(fn($row) => new self($row), $rows);
         foreach ($prices as $price) {
-            $price->currency = Currency::getById($db, $price->currencyId);
+            //$price->currency = Currency::getById($db, $price->currencyId);
+            $stmt2 = $db->prepare("SELECT * FROM currency WHERE id_currency = :id");
+            $stmt2->execute(['id' => $price->currencyId]);
+            $rowCurr = $stmt2->fetch(PDO::FETCH_ASSOC);
+            $price->currency = new Currency(array_merge([
+                    'id_prices' => $price->id,
+                    'amount' => $price->amount,
+                    'currency_id' => $price->currencyId,
+                    'product_id' => $price->productId,
+            ], $rowCurr));
         }
         return $prices;
     }

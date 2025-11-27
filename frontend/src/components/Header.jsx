@@ -4,7 +4,7 @@ import { useCart } from '../CartContext';
 import { graphql } from '../api';
 
 export default function Header({ activeCategory, onCategoryClick, menuOpen, setMenuOpen }) {
-  const { totalItems, toggle } = useCart();
+  const { totalItems, toggle, isOpen, setIsOpen } = useCart();
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function Header({ activeCategory, onCategoryClick, menuOpen, setM
   return (
     <div className="header-container">
     <header className="site-header">
-      <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'x' : '☰'}</button>
+      <button className="menu-toggle" onClick={() => { setMenuOpen(!menuOpen); if (!menuOpen) setIsOpen(false); }}>{menuOpen ? 'x' : '☰'}</button>
       <nav className={`categories ${menuOpen ? 'open' : ''}`}>
 
         {categories.map(cat => (  
@@ -38,7 +38,7 @@ export default function Header({ activeCategory, onCategoryClick, menuOpen, setM
         <button
           data-testid="cart-btn"
           className="cart-btn"
-          onClick={toggle}
+          onClick={() => { toggle(); setMenuOpen(false);}}
         >
           <img src="/cart.png" alt="Cart Image"/>
           {totalItems > 0 ? (<span className="cart-bubble">{totalItems}</span>) : null}
