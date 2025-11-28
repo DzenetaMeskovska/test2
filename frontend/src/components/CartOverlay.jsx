@@ -13,11 +13,6 @@ export default function CartOverlay() {
     if (items.length === 0) return;
 
     const total = items.reduce((sum, i) => sum + (i.price || 0) * (i.qty || 0), 0);
-    //array.reduce((accumulator, current) => ..., initialValue)
-    //accumulator (s) → the value that accumulates as .reduce() loops through the array
-    //current (i) → the current element of the array
-    //initialValue → the starting value of the accumulator (here, 0)
-    //returns single value
 
     const currency = Number(items[0]?.currency_id) || 1;
 

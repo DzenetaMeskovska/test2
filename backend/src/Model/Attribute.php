@@ -4,10 +4,10 @@ namespace App\Model;
 use PDO;
 
 class Attribute {
-    protected int $id;
-    protected string $name;
-    protected string $type;
-    protected array $items = [];
+    private int $id;
+    private string $name;
+    private string $type;
+    private array $items = [];
 
     public function __construct(array $data) {
         $this->id = $data['id_attributes'];
@@ -50,15 +50,4 @@ class Attribute {
         }
         return $attributes;
     }
-
-    /* public function loadItems(PDO $db, string $productId): void {
-        $stmt = $db->prepare("
-                SELECT ai.*
-                FROM product_items pi
-                JOIN attribute_items ai ON pi.attribute_item_id = ai.id_attribute_items
-                WHERE pi.product_id = :id AND ai.attribute_id = :attrId");
-        $stmt->execute(['id' => $productId, 'attrId' => $this->id]);
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $this->items = array_map(fn($row) => new AttributeItem($row), $rows);
-    } */
 }

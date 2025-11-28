@@ -1,8 +1,5 @@
 <?php
 
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\InputObjectType;
 use App\Database\Connection;
 use App\Model\Category;
 use App\Model\Order;
