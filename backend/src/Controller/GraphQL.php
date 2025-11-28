@@ -20,7 +20,7 @@ use Throwable;
 class GraphQL {
     static public function handle() {
         try {
-            $resolvers = require '../src/Resolvers/Resolvers.php';
+            $resolvers = require '../src/Resolvers/resolvers.php';
 
             $productType = null;
 
@@ -226,8 +226,7 @@ class GraphQL {
             ]
             ]);
         
-            // See docs on schema options:
-            // https://webonyx.github.io/graphql-php/schema-definition/#configuration-options
+            
             $schema = new Schema(
                 (new SchemaConfig())
                 ->setQuery($queryType)

@@ -18,11 +18,4 @@ class Currency extends Price{
     public function getId():int { return $this->id_curr;}
     public function getLabel():string { return $this->label;}
     public function getSymbol():string { return $this->symbol;}
-
-    /* public static function getById(PDO $db, int $id): ?self {
-        $stmt = $db->prepare("SELECT * FROM currency WHERE id_currency = :id");
-        $stmt->execute(['id' => $id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ? new self($row) : null;
-    } */
 }

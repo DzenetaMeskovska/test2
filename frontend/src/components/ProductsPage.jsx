@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
-import { graphql } from '../api';
+import { graphql } from '../api/api';
+import { GET_PRODUCTS } from '../api/queries/products';
 
 export default function ProductsPage({category}) {
   const [products, setProducts] = useState([]);
@@ -10,27 +11,7 @@ export default function ProductsPage({category}) {
       ? "products"
       : category.toLowerCase() + "Products";
 
-    const q = `query {
-        ${field} {
-          id
-          name
-          inStock
-          gallery { url }
-          description
-          attributes {
-            name
-            type
-            items { displayValue value }
-          }
-          prices {
-            amount
-            currency { label symbol }
-          }
-          category { name }
-        }
-      }`;
-      /* console.log("Category:", category);
-      console.log("Field:", field); */
+    const q = GET_PRODUCTS(field);
       graphql(q)
         .then(data => setProducts(data[field]))
         .catch(console.error);

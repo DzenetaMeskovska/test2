@@ -35,19 +35,17 @@ export function CartProvider({ children }) {
 
   function increase(index) {
     setItems(prev => prev.map((it,i) => i===index ? { ...it, qty: (it.qty || 1) + 1 } : it));
-  } //prev - current items
+  }
 
   function decrease(index) {
     setItems(prev => {
       const copy = [...prev];
-      //console.log('Before decrease:', copy[index]);
       const currentQty = copy[index].qty || 1;
       if (currentQty <= 1) {
-        copy.splice(index,1); // removes 1 element at position 'index' from copy
+        copy.splice(index,1);
       } else {
         copy[index].qty = currentQty - 1;
       }
-      //console.log('After decrease:', copy[index]);
       return copy;
     });
   }

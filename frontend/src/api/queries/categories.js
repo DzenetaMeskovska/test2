@@ -1,0 +1,1 @@
+export const GET_CATEGORIES = `query { categories { id name } }`;

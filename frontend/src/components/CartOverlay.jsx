@@ -1,7 +1,8 @@
 import React from 'react';
 import { useCart } from '../CartContext';
 import { formatPrice, kebabCase } from '../utils';
-import { graphql } from '../api';
+import { graphql } from '../api/api';
+import { PLACE_ORDER } from '../api/mutations/placeOrder';
 
 export default function CartOverlay() {
   const { items, increase, decrease, isOpen, setIsOpen, cartTotal, totalItems, clear, totalCurrency } = useCart();
@@ -30,25 +31,7 @@ export default function CartOverlay() {
       }`;
     }).join(", ");
 
-    const mutation = `
-      mutation {
-        placeOrder(
-          items: [${itemsStr}],
-          total: ${total},
-          currency_id: ${currency}
-        ){
-          id
-          total
-          currency_id
-          items {
-            productId
-            quantity
-            attributes
-          }
-        }
-      }
-    `;
-    //console.log("GraphQL mutation:\n", mutation);
+    const mutation = PLACE_ORDER(itemsStr, total, currency);
 
     await graphql(mutation);
     clear();
@@ -63,16 +46,13 @@ export default function CartOverlay() {
         <div className="cart-items">
           {items.map((it, idx) => (
             <div key={idx} className="cart-item">
-              {/*console.log(`idx: ${idx}`)*/}
               
               <div className="cart-item-body">
                 <div className="cart-item-title">{it.name}</div>
                 <div className="cart-item-price">{it.currency}{formatPrice(it.price)}</div>
 
-                {/* attributes */}
                 {(it.allAttributes || []).map(attr => (
                   <div key={`${idx}-${attr.name}`} className="cart-attribute" data-testid={`cart-item-attribute-${kebabCase(attr.name)}`}>
-                    {/*console.log(`attr.key: ${idx}-${attr.name}`)*/}
                     <div className="cart-attr-name">{attr.name}</div>
 
                     <div className="options">
@@ -86,7 +66,6 @@ export default function CartOverlay() {
                             className={`option-cart ${isSwatch ? 'swatch' : ''} ${isSelected ? 'selected' : ''}`}
                             data-testid={`cart-item-attribute-${kebabCase(attr.name)}-${kebabCase(opt.value)}`}
                           >
-                            {/*console.log(`opt.key: ${idx}-${attr.name}-${opt.value}`)*/}
                             {isSwatch 
                               ? <span className="color-box" style={{ backgroundColor: opt.value }}></span>
                               : ( <span 
@@ -103,7 +82,7 @@ export default function CartOverlay() {
                 ))}
                 
               </div>
-              {/* quantity controls */}
+
                 <div className="qty-controls">
                   <button className="qty-button" data-testid="cart-item-amount-increase" onClick={()=>increase(idx)}>+</button>
                   <div className="cart-item-amount" data-testid="cart-item-amount">{it.qty}</div>

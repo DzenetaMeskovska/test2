@@ -577,7 +577,7 @@ button.disabled {
   font-family: 'Roboto', sans-serif;
 }
 
-/*----------------------------------------------*/
+/*---------------------------------------------- media */
 @media (max-width: 1320px) {
   .cart-panel { 
     width: 100wv;

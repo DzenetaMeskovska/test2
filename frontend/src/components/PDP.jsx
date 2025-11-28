@@ -1,47 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-import { graphql } from '../api';
+import { graphql } from '../api/api';
 import { useCart } from '../CartContext';
 import { formatPrice, kebabCase } from '../utils';
 import parse from "html-react-parser";
+import { GET_PRODUCT } from '../api/queries/product';
 
 export default function ProductPage() {
   const { id } = useParams();
-  //console.log('Product ID:', id);
   const [product, setProduct] = useState(null);
   const [selected, setSelected] = useState({});
   const [activeImage, setActiveImage] = useState(0);
   const { addItem } = useCart();
 
   useEffect(() => {
-    const q = `query { 
-      product(id: "${id}") 
-      { 
-        id 
-        name 
-        inStock 
-        gallery { url } 
-        description 
-        attributes { 
-          name 
-          type 
-          items { 
-            displayValue 
-            value 
-            } 
-        } 
-        prices { 
-          amount 
-          currency { 
-            label 
-            symbol
-          } 
-        } 
-      } }`;
+    const q = GET_PRODUCT(id);
     graphql(q).then(data=> { setProduct(data.product); 
       const defaults = {};
       data.product.attributes?.forEach(a => defaults[a.name] = a.items?.[0]?.value ?? null);
-      //setSelected(defaults);
     }).catch(console.error);
   }, [id]);
 
