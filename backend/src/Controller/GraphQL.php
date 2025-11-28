@@ -165,10 +165,22 @@ class GraphQL {
             $orderType = new ObjectType([
                 'name' => 'Order',
                 'fields' => [
-                    'id' => ['type' => Type::int()],
-                    'total' => ['type' => Type::float()],
-                    'currency_id' => ['type' => Type::int()],
-                    'items' => ['type' => Type::listOf($orderItemType)],
+                    'id' => [
+                        'type' => Type::int(), 
+                        'resolve' => fn($order) => $order->getId()
+                    ],
+                    'total' => [
+                        'type' => Type::float(), 
+                        'resolve' => fn($order) => $order->getTotal()
+                    ],
+                    'currency_id' => [
+                        'type' => Type::int(), 
+                        'resolve' => fn($order) => $order->getCurrencyId()
+                    ],
+                    'items' => [
+                        'type' => Type::listOf($orderItemType), 
+                        'resolve' => fn($order) => $order->getItems()
+                    ],
                 ],
             ]);
 

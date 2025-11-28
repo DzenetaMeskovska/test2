@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCart } from '../CartContext';
 import { formatPrice, kebabCase } from '../utils';
 import { graphql } from '../api/api';

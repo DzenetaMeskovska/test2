@@ -11,6 +11,7 @@ export function PLACE_ORDER(itemsStr, total, currency) {
           currency_id
           items {
             productId
+            price
             quantity
             attributes
           }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import { graphql } from '../api/api';
 import { GET_PRODUCTS } from '../api/queries/products';

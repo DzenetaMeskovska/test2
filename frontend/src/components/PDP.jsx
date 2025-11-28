@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { graphql } from '../api/api';
 import { useCart } from '../CartContext';
@@ -58,13 +58,13 @@ export default function ProductPage() {
 
           <button
             className="nav prev"
-            onClick={() => setActiveImage((activeImage - 1 + product.gallery.length) % product.gallery.length)}
+            onClick={() => setActiveImage(prev => (prev - 1 + product.gallery.length) % product.gallery.length)}
           >
             ‹
           </button>
           <button
             className="nav next"
-            onClick={() => setActiveImage((activeImage + 1) % product.gallery.length)}
+            onClick={() => setActiveImage(prev => (prev + 1) % product.gallery.length)}
           >
             ›
           </button>

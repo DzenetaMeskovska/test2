@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { formatPrice, kebabCase } from '../utils';
 import { useCart } from '../CartContext';
 

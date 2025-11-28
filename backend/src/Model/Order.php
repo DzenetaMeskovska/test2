@@ -15,6 +15,11 @@ class Order {
         $this->currency_id = $data['currency_id'];
     }
 
+    public function getId() { return $this->id; }
+    public function getTotal() { return $this->total; }
+    public function getCurrencyId() { return $this->currency_id; }
+    public function getItems() { return $this->items; }
+
     public static function create(PDO $db, array $items, float $total, int $currency_id): self {
         $stmt = $db->prepare("INSERT INTO orders (total, currency_id) VALUES (:total, :currency_id)");
         $stmt->execute([':total' => $total, ':currency_id' => $currency_id]);

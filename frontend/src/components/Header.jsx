@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useCart } from '../CartContext';
 import { graphql } from '../api/api';
 import { GET_CATEGORIES } from "../api/queries/categories";
