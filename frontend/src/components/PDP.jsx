@@ -12,6 +12,21 @@ export default function ProductPage() {
   const [selected, setSelected] = useState({});
   const [activeImage, setActiveImage] = useState(0);
   const { addItem } = useCart();
+  const [cooldown, setCooldown] = useState(false);
+
+  const goPrev = () => {
+    if (cooldown) return;
+    setCooldown(true);
+    setActiveImage(prev => (prev - 1 + product.gallery.length) % product.gallery.length);
+    setTimeout(() => setCooldown(false), 120);
+  };
+
+  const goNext = () => {
+    if (cooldown) return;
+    setCooldown(true);
+    setActiveImage(prev => (prev + 1) % product.gallery.length);
+    setTimeout(() => setCooldown(false), 120);
+  };
 
   useEffect(() => {
     const q = GET_PRODUCT(id);
@@ -58,13 +73,13 @@ export default function ProductPage() {
 
           <button
             className="nav prev"
-            onClick={() => setActiveImage(prev => (prev - 1 + product.gallery.length) % product.gallery.length)}
+            onClick={goPrev}
           >
             ‹
           </button>
           <button
             className="nav next"
-            onClick={() => setActiveImage(prev => (prev + 1) % product.gallery.length)}
+            onClick={goNext}
           >
             ›
           </button>

@@ -14,6 +14,18 @@ export default function Header({ activeCategory, onCategoryClick, menuOpen, setM
       .then(data => setCategories(data.categories))
   }, []);
 
+  useEffect(() => {
+    const closeOnOutsideClick = (e) => {
+      if (!e.target.closest('.categories') && !e.target.closest('.menu-toggle'))
+      {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('click', closeOnOutsideClick);
+    return () => document.removeEventListener('click', closeOnOutsideClick);
+  }, [setMenuOpen]);
+
   const menuClick = () => {
     setMenuOpen(!menuOpen); 
     if (!menuOpen) setIsOpen(false);

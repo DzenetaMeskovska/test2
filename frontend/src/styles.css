@@ -578,6 +578,7 @@ button.disabled {
 }
 
 /*---------------------------------------------- media */
+
 @media (max-width: 1320px) {
   .cart-panel { 
     width: 100wv;
